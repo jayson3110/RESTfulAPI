@@ -15,6 +15,7 @@ namespace RestfulAPIASP.Models
             Add(new Product { Name = "Tomato soup", Category = "Groceries", Price = 1.39M });
             Add(new Product { Name = "Yo-yo", Category = "Toys", Price = 3.75M });
             Add(new Product { Name = "Hammer", Category = "Hardware", Price = 16.99M });
+
         }
 
       
@@ -40,12 +41,15 @@ namespace RestfulAPIASP.Models
             return products;
         }
 
-        public void Remove(int id)
+        public Product Remove(Product item)
         {
-            products.RemoveAll(p => p.Id == id);
+
+            products.RemoveAll(p => p.Id == item.Id); ;
+            return item;
+
         }
 
-        public bool Update(Product item)
+        public Product Update(Product item)
         {
             if (item == null)
             {
@@ -55,11 +59,11 @@ namespace RestfulAPIASP.Models
 
             if(index == - 1)
             {
-                return false;
+                throw new ArgumentNullException("NotFound");
             }
             products.RemoveAt(index);
             products.Add(item);
-            return true;
+            return item;
         }
     }
 }

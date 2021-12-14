@@ -11,8 +11,8 @@ namespace RestfulAPIASP.Models
         IEnumerable<Product> GetAll();
         Product Get(int id);
         Product Add(Product item);
-        void Remove(int id);
-        bool Update(Product item);
+        Product Remove(Product item);
+        Product Update(Product item);
 
     }
 }

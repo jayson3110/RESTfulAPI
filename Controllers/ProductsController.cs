@@ -49,5 +49,33 @@ namespace RestfulAPIASP.Controllers
         }
 
 
+        public HttpResponseMessage PutProduct( Product product)
+        {
+                product = repository.Update(product);
+                var response = Request.CreateResponse<Product>(HttpStatusCode.Created, product);
+                string uri = Url.Link("DefaultApi", new { id = product.Id });
+                response.Headers.Location = new Uri(uri);
+
+                return response;
+
+
+        }
+        public HttpResponseMessage DeleteUser(Product product)
+        {
+            product = repository.Remove(product);
+            var response = Request.CreateResponse<Product>(HttpStatusCode.Created, product);
+            string uri = Url.Link("DefaultApi", new { id = product.Id });
+            response.Headers.Location = new Uri(uri);
+
+            return response;
+
+
+        }
+
+
+
+
+
+
     }
 }

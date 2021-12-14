@@ -6,22 +6,49 @@
    
 
     <div id="body">
-        <ul id="contacts"></ul>
+        <ul id="products"></ul>
     </div>
 
-
-    <form id="saveContactForm" method="post">
-        <h3>Create a new Contact</h3>
+    <br />
+    <form id="saveProductForm" method="post">
+        <h3>Create a new Product</h3>
         <p>
-            <label for="contactId">Contact Id:</label>
-            <input type="text" name="Id" />
+            <label for="ProductId">Product Id:</label>
+            <input type="text" name="Id" id="id"/>
         </p>
         <p>
-            <label for="contactName">Contact Name:</label>
-            <input type="text" name="Name" />
+            <label for="ProductName">Product Name:</label>
+            <input type="text" name="Name" id   ="name"/>
         </p>
-        <input type="button" id="saveContact" value="Save" />
+        <input type="button" id="saveProducts" value="Save" />
     </form>
+
+    <br />
+
+    <form id="saveProductForm" method="put">
+        <h3>Update a  Product</h3>
+        <p>
+            <label for="ProductId">Product Id:</label>
+            <input type="text" name="Id" id="id2" />
+        </p>
+        <p>
+            <label for="ProductName">Product Name:</label>
+            <input type="text" name="Name" id="name2" />
+        </p>
+        <input type="button" id="saveProductsUpdate" value="Save" />
+    </form>
+
+<br/>
+    <form id="saveProductForm" method="delete">
+        <h3>Delete a  Product</h3>
+        <p>
+            <label for="ProductId">Product Id:</label>
+            <input type="text" name="Id" id="id3" />
+        </p>
+       
+        <input type="button" id="DeleteProducts" value="Save" />
+    </form>
+    
 
 </div>
 
@@ -30,15 +57,75 @@
         $(function () {
             $.getJSON('/api/products', function (contactsJsonPayload) {
                 $(contactsJsonPayload).each(function (i, item) {
-                    $('#contacts').append('<li>' + item.Name + '</li>');
+                    $('#products').append('<li>' + item.Name + '</li>');
                 });
             })
         })
 
-        $('#saveContact').click(function () {
-            $.post("/api/products", $("#saveContactForm").serialize(), function (value) {
-                $('#contacts').append('<li>' + value.Name + '</li>')
+        $('#saveProducts').click(function () {
+            $.post("/api/products", $("#saveProductForm").serialize(), function (value) {
+                console.log(value);
+                $('#products').append('<li>' + value.Name + '</li>')
             }, "json");
+
         });
+
+
+
+
+        
+       
+      
+        $('#saveProductsUpdate').click(function () {
+            var id = document.getElementById("id2").value;
+            var name = document.getElementById("name2").value;
+            var Data = {
+                Id: id,
+                Name: name
+            };
+          
+          console.log(Data);
+            $.ajax({
+                url: '/api/products',
+                type: 'PUT',
+                data: JSON.stringify(Data),
+                contentType: "application/json",
+                success: function (response) {
+                    //...
+                    console.log(response);
+
+                },error: function () {
+                    alert("Error occured!!")
+                }
+            });
+        })
+
+
+        $('#DeleteProducts').click(function () {
+            var id = document.getElementById("id3").value;
+           
+            var Data = {
+                Id: id,
+                //Name: name
+            };
+
+            console.log(Data);
+            $.ajax({
+                url: '/api/products',
+                type: 'DELETE',
+                data: JSON.stringify(Data),
+                contentType: "application/json",
+                success: function (response) {
+                    //...
+                    console.log(response);
+
+                }, error: function () {
+                    alert("Error occured!!")
+                }
+            });
+        })
+
+
+       
     </script>
 }
